@@ -1,0 +1,40 @@
+substitutions:
+  #Name your Gateway
+  device_name: a4-button
+  #Home Assistant Name
+  friendly_name: A4 button
+  #Secret YAML is used for next data:
+  api_pw: !secret api_password
+  ota_pw: !secret ota_password
+
+esphome:
+  name: ${device_name}
+  platform: ESP32
+  variant: esp32c3
+  board: esp-wrover-kit
+
+#wifi:
+  #ssid: YOUR-WIFI-SSID
+  #password: YOUR-WIFI-PASSWORD
+
+# Enable logging
+logger:
+  level: DEBUG
+
+# Enable Home Assistant API
+api:
+  password: ${api_pw}
+  reboot_timeout: 0s
+
+# Enable OTA
+ota:
+  password: ${ota_pw}
+
+#Enable WEB
+web_server:
+  port: 80
+
+# Enable HA Time
+time:
+  - platform: homeassistant
+    id: homeassistant_time
