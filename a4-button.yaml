@@ -10,7 +10,7 @@ substitutions:
 esphome:
   name: ${device_name}
   platform: ESP32
-  variant: esp32c3
+  variants: ESP32C3
   board: esp-wrover-kit
 
 wifi:
