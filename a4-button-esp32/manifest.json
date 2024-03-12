@@ -1,0 +1,9 @@
+{
+  "chipFamily": "ESP32-C3",
+  "parts": [
+    {
+      "path": "a4-button-esp32/a4-button-esp32.bin",
+      "offset": 0
+    }
+  ]
+}
