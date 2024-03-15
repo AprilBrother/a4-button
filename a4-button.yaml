@@ -14,9 +14,6 @@ esphome:
 
 wifi:
 
-# Allow provisioning Wi-Fi via serial
-improv_serial:
-
 captive_portal:
 
 # Enable logging
