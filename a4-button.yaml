@@ -11,6 +11,8 @@ esphome:
   name: ${device_name}
   platform: ESP32
   board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
 
 wifi:
   # Set up a wifi access point
