@@ -13,7 +13,11 @@ esphome:
   board: esp32-c3-devkitm-1
 
 wifi:
-  improv_serial:
+
+# Allow provisioning Wi-Fi via serial
+improv_serial:
+
+captive_portal:
 
 # Enable logging
 logger:
