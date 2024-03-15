@@ -2,7 +2,7 @@ substitutions:
   #Name your Gateway
   device_name: a4-button
   #Home Assistant Name
-  friendly_name: A4 button
+  friendly_name: a4 button
   #Secret YAML is used for next data:
   api_pw: !secret api_password
   ota_pw: !secret ota_password
@@ -21,6 +21,8 @@ wifi:
     ssid: '${friendly_name}'
 
 captive_portal:
+
+improv_serial:
 
 # Enable logging
 logger:
