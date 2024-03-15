@@ -13,6 +13,9 @@ esphome:
   board: esp32-c3-devkitm-1
 
 wifi:
+  # Set up a wifi access point
+  ap:
+    ssid: '${friendly_name}'
 
 captive_portal:
 
