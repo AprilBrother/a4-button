@@ -24,6 +24,14 @@ captive_portal:
 
 improv_serial:
 
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO3
+      mode: INPUT_PULLUP
+    name: "Button"
+    device_class: window
+
 # Enable logging
 logger:
   level: DEBUG
