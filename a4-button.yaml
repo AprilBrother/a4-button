@@ -13,8 +13,7 @@ esphome:
   board: esp32-c3-devkitm-1
 
 wifi:
-  ssid: YOUR-WIFI-SSID
-  password: YOUR-WIFI-PASSWORD
+  improv_serial:
 
 # Enable logging
 logger:
