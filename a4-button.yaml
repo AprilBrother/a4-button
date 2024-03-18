@@ -31,6 +31,35 @@ binary_sensor:
       mode: INPUT_PULLUP
     name: "Button"
     device_class: window
+    on_press:
+      then:
+        - switch.turn_on: led_sw
+        - light.turn_on:
+            id: led_1
+            brightness: 100%
+            red: 100%
+            green: 100%
+            blue: 1.0
+
+switch:
+  - platform: gpio
+    id: led_sw
+    pin: 
+      number: 5
+      inverted: true
+
+light:
+  - platform: neopixelbus
+    type: GRB
+    variant: WS2812
+    pin: GPIO4
+    method:
+      type: esp32_rmt
+      channel: 0
+    num_leds: 1
+    name: "QT Py NeoPixel"
+    id: led_1
+    restore_mode: RESTORE_AND_ON
 
 # Enable logging
 logger:
