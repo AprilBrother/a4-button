@@ -42,7 +42,7 @@ binary_sensor:
         - output.turn_on: buzzer
         - output.ledc.set_frequency:
             id: buzzer
-            frequency: "4000Hz"
+            frequency: "4200Hz"
         - output.set_level:
             id: buzzer
             level: "50%"
