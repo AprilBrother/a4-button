@@ -24,6 +24,11 @@ captive_portal:
 
 improv_serial:
 
+output:
+  - platform: ledc
+    pin: GPIO1
+    id: buzzer
+
 binary_sensor:
   - platform: gpio
     pin:
@@ -34,6 +39,13 @@ binary_sensor:
     on_press:
       then:
         - switch.turn_on: led_sw
+        - output.turn_on: buzzer
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: "4000Hz"
+        - output.set_level:
+            id: buzzer
+            level: "50%"
         - light.turn_on:
             id: led_1
             brightness: 30%
