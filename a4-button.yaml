@@ -29,6 +29,11 @@ output:
     pin: GPIO1
     id: buzzer
 
+deep_sleep:
+  id: gosleep
+  run_duration: 5s
+  wakeup_pin: GPIO3
+
 binary_sensor:
   - platform: gpio
     pin:
