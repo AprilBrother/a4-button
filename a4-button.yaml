@@ -61,7 +61,7 @@ binary_sensor:
             green: 40%
             blue: 1.0
         - deep_sleep.enter:
-          id: gosleep
+            id: gosleep
 
 switch:
   - platform: gpio
