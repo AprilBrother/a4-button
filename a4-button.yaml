@@ -33,12 +33,14 @@ deep_sleep:
   id: gosleep
   wakeup_pin:
     number: 3
+    allow_other_uses: true
     mode: INPUT_PULLUP
 
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO3
+      allow_other_uses: true
       mode: INPUT_PULLUP
     name: "Button"
     device_class: window
