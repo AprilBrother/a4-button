@@ -31,8 +31,7 @@ output:
 
 deep_sleep:
   id: gosleep
-  run_duration: 5s
-  wakeup_pin: GPIO3
+  run_duration: 15s
 
 binary_sensor:
   - platform: gpio
