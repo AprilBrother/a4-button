@@ -31,6 +31,7 @@ output:
 
 deep_sleep:
   id: gosleep
+  run_duration: 10s
   wakeup_pin:
     number: 3
     inverted: true
