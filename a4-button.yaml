@@ -33,8 +33,9 @@ deep_sleep:
   id: gosleep
   wakeup_pin:
     number: 3
-    allow_other_uses: true
+    inverted: true
     mode: INPUT_PULLUP
+    allow_other_uses: true
 
 binary_sensor:
   - platform: gpio
@@ -60,6 +61,7 @@ binary_sensor:
             red: 40%
             green: 40%
             blue: 1.0
+        - delay: 5s
         - deep_sleep.enter:
             id: gosleep
 
