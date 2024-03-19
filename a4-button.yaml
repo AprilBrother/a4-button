@@ -36,13 +36,11 @@ deep_sleep:
     number: GPIO2
     inverted: true
     mode: INPUT_PULLUP
-    allow_other_uses: true
 
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO3
-      allow_other_uses: true
       mode: INPUT_PULLUP
     name: "Button"
     device_class: window
