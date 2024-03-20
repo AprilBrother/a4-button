@@ -3,9 +3,14 @@ substitutions:
   device_name: a4-button
   #Home Assistant Name
   friendly_name: a4 button
+  text_sensor_name: Pressed count
+  text_sensor_id: text_pressed
   #Secret YAML is used for next data:
   api_pw: !secret api_password
   ota_pw: !secret ota_password
+
+mqtt:
+  broker: !secret mqtt_broker
 
 esphome:
   name: ${device_name}
@@ -16,6 +21,10 @@ esp32:
     type: arduino
 
 wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  fast_connect: true
+
   # Set up a wifi access point
   ap:
     ssid: '${friendly_name}'
@@ -24,6 +33,12 @@ captive_portal:
 
 improv_serial:
 
+globals:
+  - id: counter
+    type: int
+    restore_value: yes
+    initial_value: '0'
+
 output:
   - platform: ledc
     pin: GPIO1
@@ -31,36 +46,35 @@ output:
 
 deep_sleep:
   id: gosleep
-  run_duration: 10s
   wakeup_pin:
-    number: GPIO2
+    number: GPIO3
     inverted: true
     mode: INPUT_PULLUP
+    allow_other_uses: true
 
 binary_sensor:
   - platform: gpio
+    id: btn1
     pin:
       number: GPIO3
+      allow_other_uses: true
       mode: INPUT_PULLUP
     name: "Button"
     device_class: window
     on_press:
       then:
         - switch.turn_on: led_sw
-        - output.turn_on: buzzer
-        - output.ledc.set_frequency:
-            id: buzzer
-            frequency: "4200Hz"
-        - output.set_level:
-            id: buzzer
-            level: "50%"
         - light.turn_on:
             id: led_1
             brightness: 30%
             red: 40%
             green: 40%
             blue: 1.0
-        - delay: 10s
+        - lambda: |-
+            id(counter) += 1;
+            id(${text_sensor_id}).publish_state(std::to_string(id(counter)));
+        - delay: 2s
+        - switch.turn_off: led_sw
         - deep_sleep.enter:
             id: gosleep
 
@@ -81,11 +95,16 @@ light:
     name: "My Light"
     id: led_1
 
+text_sensor:
+  - platform: template
+    name: '${text_sensor_name}'
+    icon: "mdi:toggle-switch"
+    id: '${text_sensor_id}'
+
 # Enable logging
 logger:
   level: DEBUG
 
-# Enable Home Assistant API
 api:
   password: ${api_pw}
   reboot_timeout: 0s
