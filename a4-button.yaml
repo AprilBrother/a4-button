@@ -9,8 +9,7 @@ substitutions:
   api_pw: !secret api_password
   ota_pw: !secret ota_password
 
-mqtt:
-  broker: !secret mqtt_broker
+debug:
 
 esphome:
   name: ${device_name}
@@ -20,6 +19,12 @@ esp32:
   framework:
     type: arduino
 
+external_components:
+  - source:
+      type: local
+      path: ../esphome-ab-mqtt
+    components: [ab_mqtt]
+
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_pass
@@ -28,6 +33,31 @@ wifi:
   # Set up a wifi access point
   ap:
     ssid: '${friendly_name}'
+
+mqtt:
+  broker: YOUR_BROKER_ADDRESS
+  port: 1883
+
+ab_mqtt:
+  id: my_mqtt
+
+# text component for MQTT params
+text:
+  - platform: template
+    name: "MQTT Broker"
+    mode: text
+    optimistic: true
+    restore_value: true
+
+  - platform: template
+    name: "MQTT Port" 
+    mode: text
+    optimistic: true
+    restore_value: true
+    on_value:
+      then:
+        - lambda: |-
+            id(my_mqtt).update_port((uint16_t)stoi(x));
 
 captive_portal:
 
@@ -75,8 +105,8 @@ binary_sensor:
             id(${text_sensor_id}).publish_state(std::to_string(id(counter)));
         - delay: 2s
         - switch.turn_off: led_sw
-        - deep_sleep.enter:
-            id: gosleep
+        #- deep_sleep.enter:
+        #  id: gosleep
 
 switch:
   - platform: gpio
