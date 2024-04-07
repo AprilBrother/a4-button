@@ -5,15 +5,30 @@ substitutions:
   api_pw: !secret api_password
   ota_pw: !secret ota_password
 
-debug:
-
 esphome:
   name: ${device_name}
   on_boot:
     then:
+      - switch.turn_on: led_sw
+      - light.turn_on:
+          id: led_1
+          brightness: 30%
+          red: 40%
+          green: 40%
+          blue: 1.0
       - delay: 2s
-      - light.turn_on: led_1
       - script.execute: update_mqtt_config
+      - delay: 2s
+      - if:
+          condition:
+            binary_sensor.is_off: btn1
+          then:
+            - deep_sleep.prevent: gosleep
+            - logger.log: "prevent sleep"
+          else:
+            - delay: 4s
+            - switch.turn_off: led_sw
+            - deep_sleep.enter: gosleep
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -67,8 +82,12 @@ script:
       - delay: 1s
       - lambda: |-
           static MQTTClientComponent *mq = esphome::mqtt::global_mqtt_client;
-          mq->set_broker_port((uint16_t)stoi(id(text_mqtt_port).state));
-          mq->set_broker_address(id(text_mqtt_broker).state);
+          if (id(text_mqtt_broker).state.length()) {
+            mq->set_broker_address(id(text_mqtt_broker).state);
+          }
+          if (id(text_mqtt_port).state.length()) {
+            mq->set_broker_port((uint16_t)stoi(id(text_mqtt_port).state));
+          }
           mq->set_username(id(text_mqtt_username).state);
           mq->set_password(id(text_mqtt_password).state);
 
@@ -108,21 +127,14 @@ binary_sensor:
     name: "Button"
     device_class: window
     on_press:
+      - logger.log: "pressed"
+    on_double_click:
+      min_length: 50ms
+      max_length: 350ms
       then:
-        - logger.log: 'haha'
-    on_release:
-      then:
-        - switch.turn_on: led_sw
-        - light.turn_on:
-            id: led_1
-            brightness: 30%
-            red: 40%
-            green: 40%
-            blue: 1.0
-        - delay: 2s
-        - switch.turn_off: led_sw
-        - deep_sleep.enter:
-            id: gosleep
+        - logger.log: "double click"
+        - delay: 5s
+        - deep_sleep.enter: gosleep
 
 switch:
   - platform: gpio
