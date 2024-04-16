@@ -12,22 +12,28 @@ esphome:
       - switch.turn_on: led_sw
       - light.turn_on:
           id: led_1
-          brightness: 30%
-          red: 40%
-          green: 40%
-          blue: 1.0
-      - delay: 2s
+          brightness: 60%
+          red: 0
+          green: 80%
+          blue: 0
+      - output.turn_on: buzzer
+      - output.set_level:
+          id: buzzer
+          level: "50%"
+      - delay: 0.2s
+      - output.turn_off: buzzer
       - script.execute: update_mqtt_config
       - delay: 2s
+      - switch.turn_off: led_sw
       - if:
           condition:
             binary_sensor.is_off: btn1
           then:
+            - switch.turn_on: led_sw
             - deep_sleep.prevent: gosleep
             - logger.log: "prevent sleep"
           else:
             - delay: 4s
-            - switch.turn_off: led_sw
             - deep_sleep.enter: gosleep
 
 esp32:
@@ -107,6 +113,7 @@ improv_serial:
 output:
   - platform: ledc
     pin: GPIO1
+    frequency: "4000Hz"
     id: buzzer
 
 deep_sleep:
