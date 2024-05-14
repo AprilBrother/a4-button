@@ -49,6 +49,7 @@ wifi:
   # Set up a wifi access point
   ap:
     ssid: '${friendly_name}'
+    ap_timeout: 30s
 
 mqtt:
   broker: YOUR_BROKER_ADDRESS
