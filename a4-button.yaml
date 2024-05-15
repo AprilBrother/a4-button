@@ -3,7 +3,6 @@ substitutions:
   friendly_name: a4 button
   #Secret YAML is used for next data:
   api_pw: !secret api_password
-  ota_pw: !secret ota_password
 
 esphome:
   name: ${device_name}
@@ -118,7 +117,6 @@ api:
 
 # Enable OTA
 ota:
-  password: ${ota_pw}
 
 #Enable WEB
 web_server:
