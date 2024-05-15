@@ -52,6 +52,26 @@ light:
     name: "My Light"
     id: led_1
 
+binary_sensor:
+  - platform: gpio
+    id: btn1
+    pin:
+      number: GPIO3
+      allow_other_uses: true
+      mode: INPUT_PULLUP
+    name: "Button"
+    device_class: window
+    on_press:
+      - logger.log: "pressed"
+
+deep_sleep:
+  id: gosleep
+  wakeup_pin:
+    number: GPIO3
+    inverted: true
+    mode: INPUT_PULLUP
+    allow_other_uses: true
+
 # Enable logging
 logger:
   level: DEBUG
