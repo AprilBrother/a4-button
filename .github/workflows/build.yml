@@ -49,16 +49,16 @@ jobs:
     outputs:
       esphome-version: ${{ steps.esphome-build.outputs.esphome-version }}
     steps:
-      - uses: actions/checkout@v6.0.0
-      - uses: AprilBrother/esphome-build-action@v2.0.2
+      - uses: actions/checkout@v6
+      - uses: esphome/build-action@v7
         id: esphome-build
         with:
-          yaml_file: ${{ matrix.file }}
+          yaml-file: ${{ matrix.file }}
           version: ${{ inputs.esphome_version }}
       - run: |
           mkdir output
           mv "${{ steps.esphome-build.outputs.name }}" output/
-      - uses: actions/upload-artifact@v4.3.3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.name }}
           path: output

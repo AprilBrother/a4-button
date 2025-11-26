@@ -98,11 +98,10 @@ switch:
       inverted: true
 
 light:
-  - platform: esp32_rmt_led_strip
+  - platform: fastled_clockless
     rgb_order: GRB
     pin: GPIO4
     num_leds: 1
-    rmt_channel: 0
     chipset: ws2812
     name: "My Light"
     id: led_1
